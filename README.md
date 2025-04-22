@@ -26,7 +26,7 @@ python app.py
 
 You can use other tools than postman but that is what we used and recommend to use. 
 
-### Configuration 1 
+### Configuration 1: Redis with Retention Policy 
 
 If you want to create a new user with the retention policy for configuration 1, then create a new request in postman and the URL should be: http://127.0.0.1:5000/user
 
@@ -43,3 +43,64 @@ When you click send the user is created if you have done everything correct and 
 }
 
 In the folder "app/images" there are some screenshots that shows how it should look in postman and the code behind it is found in app/app.py file. 
+
+
+### Configuration 4: Redis Security 
+
+To set up some security features in Redis, you can use the Redis CLI to require a password before accessing data.
+What we have done is that we changed the docker compose file to require a password before writing any commands. The new docker compose file is located in the folder called docker-security and not the regular docker folder.
+
+We added the following lines to the docker-compose file:
+
+command: redis-server --requirepass VeryStrongPassword123
+command: redis-server --slaveof redis1 6379 --masterauth VeryStrongPassword123 --requirepass VeryStrongPassword456
+
+These lines ensure that a password is required for both instances before writing any commands. 
+
+We can test that password authentication works by running the Redis CLI in the redis1 container like this:
+
+```docker exec -it redis1 redis-cli```
+
+Then, if we try to run a command like this:
+
+```SET mykey "Test"```
+
+We get this error: "(error) NOAUTH Authentication required."
+
+This error occurs because we haven't authenticated yet with a password.
+
+To authenticate, we can use the following command with the password we set in the docker compose file:
+
+``` AUTH VeryStrongPassword123 ```
+
+After authenticating we can run all commands.
+The issue with this is that it dosent specify if some users should have access to all commands or just limited access. This solution just assumes that if the user types in the password, then they should have access to all commands. 
+What we can do to adress this issue is to implement some access control (ACL).
+
+The steps we took to implement this were:
+
+    We started by running Redis CLI in the redis1 container like this:
+
+```docker exec -it redis1 redis-cli```
+
+    Then, we wrote the password for global access as defined in the previous steps:
+
+```AUTH VeryStrongPassword123```
+
+    After that, we used the ACL command to set an admin user with the password adminpassword123 that has access to all commands:
+
+```ACL SETUSER admin on >adminpassword123+@all```
+
+    We authenticate with that user like this:
+
+```AUTH admin adminpassword123```
+
+    We can also create a regular user with only read rights like this:
+
+```ACL SETUSER regular on >regularuser123 +@read```
+
+    Then, we authenticate with the read-only user:
+
+```AUTH regular regularuser123```
+
+In this way we ensure that not all users have write access to the Redis database if we want to control that. 
