@@ -42,4 +42,4 @@ When you click send the user is created if you have done everything correct and 
   "message": "User has been added and will expire after 60 seconds"
 }
 
-In the folder "app/images" there are some screenshots that shows how it should look in postman. 
+In the folder "app/images" there are some screenshots that shows how it should look in postman and the code behind it is found in app/app.py file. 
