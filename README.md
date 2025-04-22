@@ -46,7 +46,7 @@ Below is some images of how it should look in postman:
 
 Creating the user with the body: 
 
-![Alt text describing the screenshot](images/Screenshot1.png)
+![Postman POST response showing success message](./images/Screenshot1.png)
 
 Getting the user after creation:
 
