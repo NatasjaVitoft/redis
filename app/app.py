@@ -4,7 +4,15 @@ import json
 
 app = Flask(__name__)
 
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+# Old code without security
+# r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+
+r = redis.Redis(
+    host='localhost',
+    port=6379,
+    password='VeryStrongPassword123', # Password should be in an ENV file for more security but this is only for test purpose
+    decode_responses=True
+)
 
 @app.route('/')
 def home():
