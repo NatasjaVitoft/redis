@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import redis
 import json
-import os
 
 app = Flask(__name__)
 
@@ -16,6 +15,7 @@ def add_user():
     data = request.json
     user_id = data.get('id')
     user_data = json.dumps(data)
+    # Terminal command example : SETEX user:user123 60 '{"id": "user123", "name": "user123"}'
     r.setex(f"user:{user_id}", 60, user_data)  
     return jsonify({"message": "User has been added and will expire after 60 seconds"}), 201
 
