@@ -79,27 +79,27 @@ What we can do to adress this issue is to implement some access control (ACL).
 
 The steps we took to implement this were:
 
-    We started by running Redis CLI in the redis1 container like this:
+We started by running Redis CLI in the redis1 container like this:
 
 ```docker exec -it redis1 redis-cli```
 
-    Then, we wrote the password for global access as defined in the previous steps:
+Then, we wrote the password for global access as defined in the previous steps:
 
 ```AUTH VeryStrongPassword123```
 
-    After that, we used the ACL command to set an admin user with the password adminpassword123 that has access to all commands:
+After that, we used the ACL command to set an admin user with the password adminpassword123 that has access to all commands:
 
 ```ACL SETUSER admin on >adminpassword123+@all```
 
-    We authenticate with that user like this:
+We authenticate with that user like this:
 
 ```AUTH admin adminpassword123```
 
-    We can also create a regular user with only read rights like this:
+We can also create a regular user with only read rights like this:
 
 ```ACL SETUSER regular on >regularuser123 +@read```
 
-    Then, we authenticate with the read-only user:
+Then, we authenticate with the read-only user:
 
 ```AUTH regular regularuser123```
 
