@@ -52,8 +52,8 @@ What we have done is that we changed the docker compose file to require a passwo
 
 We added the following lines to the docker-compose file:
 
-command: redis-server --requirepass VeryStrongPassword123
-command: redis-server --slaveof redis1 6379 --masterauth VeryStrongPassword123 --requirepass VeryStrongPassword456
+```command: redis-server --requirepass VeryStrongPassword123```
+```command: redis-server --slaveof redis1 6379 --masterauth VeryStrongPassword123 --requirepass VeryStrongPassword456```
 
 These lines ensure that a password is required for both instances before writing any commands. 
 
