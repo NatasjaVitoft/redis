@@ -42,12 +42,4 @@ When you click send the user is created if you have done everything correct and 
   "message": "User has been added and will expire after 60 seconds"
 }
 
-Below is some images of how it should look in postman:
-
-Creating the user with the body: 
-
-![Postman POST response showing success message](./images/Screenshot1.png)
-
-Getting the user after creation:
-
-![Alt text describing the screenshot](images/Screenshot2.png)
+In the folder "app/images" there are some screenshots that shows how it should look in postman. 
