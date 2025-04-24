@@ -44,6 +44,15 @@ When you click send the user is created if you have done everything correct and 
 
 In the folder "app/images" there are some screenshots that shows how it should look in postman and the code behind it is found in app/app.py file.
 
+### Configuration 2. Master - Replica
+
+For this Setup we use a docker compose setup to initilaize 2 containerized redis instances. One of the instances is run with the `--slaveof` flag together with the IP and port of the First master instance. 
+
+From here we can see that data that is inserted into the master instance, also can be fetched directly from the replica.
+
+The relevant docker-compose file is found in `docker/master-replica/docker-compose.yml`
+
+
 ### Configuration 3. Redis Cluster
 
 We tried to set up a Redis cluster consisting of 6 total instances where 3 of them acted as primaries, and 3 of them acted as "slaves", each assigned to their own "master".
