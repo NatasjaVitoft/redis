@@ -104,3 +104,25 @@ Then, we authenticate with the read-only user:
 ```AUTH regular regularuser123```
 
 In this way we ensure that not all users have write access to the Redis database if we want to control that. 
+
+### Configuration 5: Redis publish/subscribe pattern
+
+The publish/subscribe pattern is a good solution for real time communication because messages are not sent to a specific user but instead to a channel where several users can subscribe to. All users that subscribe to that channel will recieve the message instantly. 
+ 
+We will set up an example of how to use the publish/subscribe pattern with a notification system for a game. 
+
+We will start out by opening two terminals and in the first terminal we will use the SUBSCRIBE keyword to subscribe to a channel that we create. 
+
+``` SUBSCRIBE updates_game ```
+
+When we run the line above we listen for any messages from the channel "updates_game". 
+
+Then in the other channel we use the keyword PUBLISH to publish a message to the channel, and we should be able to see that message in the first terminal. 
+
+```  PUBLISH updates_game "Hello" ```
+
+When we run the line above we see the message below in the first terminal, which confirms that we are successfully listening after messages from the channel updates_game. 
+
+1) "message"
+2) "updates_game"
+3) "Hello"
