@@ -42,7 +42,22 @@ When you click send the user is created if you have done everything correct and 
   "message": "User has been added and will expire after 60 seconds"
 }
 
-In the folder "app/images" there are some screenshots that shows how it should look in postman and the code behind it is found in app/app.py file. 
+In the folder "app/images" there are some screenshots that shows how it should look in postman and the code behind it is found in app/app.py file.
+
+### Configuration 3. Redis Cluster
+
+We tried to set up a Redis cluster consisting of 6 total instances where 3 of them acted as primaries, and 3 of them acted as "slaves", each assigned to their own "master".
+We set the configuration up using 6 different docker containers all running on localhost, with an internal network configuration set up with docker-compose. 
+
+We tried doing it as simple as possible, and spinning up the redis containers in cluster mode was never a problem, but connecting them together afterwards turned out to be a bit of a pain, because of how the redis shards communicate, and how Docker virtual networks works.
+
+We at last found a solution with an extensive configuration of the virtual network, by assigning eah of the shards a static IPv4 adress, so they could use their default ports.
+
+Now the shards could connect normally, and also transfer connection to the client normally.
+
+the docker-compose configuration can be found in the `redis-cluster` directory. Because the connection of the cluster shards has to be done after container initialization. We have written a simple bash script, that runs the whole setup proces called `setup.sh`
+
+This will only work on Linux hosts though (and Mac if bash is installed), so it also functions as setup documentation. 
 
 
 ### Configuration 4: Redis Security 
